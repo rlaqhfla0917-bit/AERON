@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MRO Copilot · 로그인</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,#0b1830 0%,#14304f 55%,#1b3c62 100%);padding:24px}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .card{width:430px;max-width:100%;background:#fff;border-radius:16px;padding:38px 38px 30px;box-shadow:0 26px 70px rgba(3,10,24,.5)}
+  .brand{display:flex;align-items:center;gap:11px;margin-bottom:7px}
+  .brand .logo{width:38px;height:38px;border-radius:9px;background:#14304f;color:#fff;display:flex;align-items:center;
+    justify-content:center;font:800 15px 'IBM Plex Mono';box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+  .brand .dot{width:7px;height:7px;border-radius:50%;background:#2dd4bf;display:inline-block;margin-right:2px}
+  .brand h1{font-size:17px;font-weight:800;letter-spacing:-.2px}
+  .brand p{font-size:11px;color:#6b7686;margin-top:1px}
+  .sec{margin:16px 0 20px;padding:9px 12px;background:#f2f5fa;border:1px solid #dde4ee;border-radius:9px;
+    font-size:11.5px;color:#41506b;line-height:1.55}
+  .rlabel{font-size:11.5px;font-weight:700;color:#41506b;margin-bottom:8px}
+  .roles{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:20px}
+  .role{border:1.5px solid #d3dbe6;border-radius:11px;padding:14px 12px;cursor:pointer;text-align:center;
+    transition:.15s;background:#fbfcfe}
+  .role:hover{border-color:#9fb2cc}
+  .role .ic{font-size:20px;line-height:1;margin-bottom:7px}
+  .role .rt{font-size:13px;font-weight:700;color:#1c2430}
+  .role .rd{font-size:10.5px;color:#8b95a5;margin-top:2px}
+  .role.on{border-color:#14304f;background:#eef3fb;box-shadow:0 0 0 3px rgba(20,48,79,.09)}
+  .role.on .rt{color:#14304f}
+  .fld{margin-bottom:11px}
+  .fld label{display:block;font-size:11.5px;font-weight:500;color:#41506b;margin-bottom:5px}
+  .fld input{width:100%;height:42px;border:1px solid #c9d2df;border-radius:9px;padding:0 13px;font-size:13px;
+    color:#1c2430;background:#fbfcfe;font-family:inherit}
+  .fld input:focus{outline:none;border-color:#14304f;background:#fff}
+  #pw{letter-spacing:3px}
+  .go{height:46px;margin-top:15px;border-radius:9px;background:#14304f;color:#fff;display:flex;align-items:center;
+    justify-content:center;font-size:13.5px;font-weight:700;cursor:pointer;transition:.15s;border:none;width:100%;font-family:inherit}
+  .go:hover{background:#0f253f}
+  .hint{text-align:center;font-size:11px;color:#8b95a5;margin-top:9px}
+  .foot{margin-top:22px;padding-top:14px;border-top:1px solid #eceff4;display:flex;justify-content:space-between;
+    font-size:10.5px;color:#9aa3b2}
+</style></head><body>
+<div class="card">
+  <div class="brand">
+    <div class="logo">M</div>
+    <div><h1><span class="dot"></span>MRO Copilot</h1><p>항공정비 Physical AI 오케스트레이션 · Line Maintenance</p></div>
+  </div>
+  <div class="sec">사내 업무망 전용 시스템입니다. 접근 기록이 감사 로그에 저장되며, 무단 접근 시 사내 보안규정에 따라 조치됩니다.</div>
+
+  <div class="rlabel">역할 선택 Role</div>
+  <div class="roles">
+    <div class="role" data-role="manager" onclick="pick('manager')">
+      <div class="ic">🖥️</div><div class="rt">관리자</div><div class="rd">관제 콘솔</div>
+    </div>
+    <div class="role" data-role="tech" onclick="pick('tech')">
+      <div class="ic">🔧</div><div class="rt">정비사</div><div class="rd">현장 앱</div>
+    </div>
+  </div>
+
+  <div id="techpick" style="display:none;margin-bottom:18px">
+    <div class="rlabel">정비사 선택 Technician <span style="font-weight:400;color:#9aa3b2">— 각자 배정 작업이 다릅니다</span></div>
+    <div id="techchips" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+  </div>
+
+  <div class="fld"><label>사번 Employee ID</label><input id="uid" class="mono" value=""></div>
+  <div class="fld"><label>비밀번호 Password</label><input id="pw" type="password" value="mro-poc-2026"></div>
+  <button class="go" onclick="submit()">사내 SSO 로그인</button>
+  <div class="hint" id="hint">역할을 선택하고 로그인하세요</div>
+
+  <div class="foot"><span>대내한 · INTERNAL USE ONLY</span><span class="mono">v2.0 PoC</span></div>
+</div>
+<script>
+  // 역할별 데모 계정·진입 대상
+  var ROLES = {
+    manager: { uid:'K-208114', to:'/manager.html', hint:'관리자 관제 콘솔 — 운영·품질·인재·지식·효과 리포트' },
+    tech:    { uid:'K-311001', to:'/index.html',   hint:'정비사 현장 앱 — 아래에서 정비사를 선택하세요' }
+  };
+  // 정비사 5명 (서버 TECHS와 동일)
+  var TECHS = [
+    {id:'박재현', grade:'숙련', robot:'MR-01', uid:'K-311001'},
+    {id:'이수민', grade:'중급', robot:'MR-02', uid:'K-311002'},
+    {id:'최동욱', grade:'중급', robot:'MR-03', uid:'K-311003'},
+    {id:'김하늘', grade:'신입', robot:'MR-04', uid:'K-311004'},
+    {id:'한지원', grade:'신입', robot:'MR-05', uid:'K-311005'},
+  ];
+  var current = null, curTech = null;
+  function renderTechs(){
+    document.getElementById('techchips').innerHTML = TECHS.map(function(t){
+      return '<div class="role" data-tech="'+t.id+'" onclick="pickTech(\''+t.id+'\')" style="padding:10px 8px">'
+        + '<div class="rt">'+t.id+' <span style="font-weight:400;color:#8b95a5;font-size:10px">'+t.grade+'</span></div>'
+        + '<div class="rd">🤖 '+t.robot+'</div></div>';
+    }).join('');
+  }
+  function pickTech(id){
+    curTech = id;
+    document.querySelectorAll('[data-tech]').forEach(function(el){ el.classList.toggle('on', el.dataset.tech===id); });
+    var t = TECHS.find(function(x){return x.id===id;});
+    if(t) document.getElementById('uid').value = t.uid;
+    document.getElementById('hint').textContent = t.id+' 정비사로 로그인 — '+t.robot+' 페어';
+  }
+  function pick(r){
+    current = r;
+    document.querySelectorAll('.roles > .role').forEach(function(el){ el.classList.toggle('on', el.dataset.role===r); });
+    document.getElementById('techpick').style.display = (r==='tech') ? 'block' : 'none';
+    if(r==='tech'){ renderTechs(); pickTech(curTech || TECHS[0].id); }
+    else { document.getElementById('uid').value = ROLES[r].uid; document.getElementById('hint').textContent = ROLES[r].hint; }
+  }
+  function submit(){
+    if(!current){ document.getElementById('hint').textContent='먼저 역할(관리자/정비사)을 선택하세요'; return; }
+    try{
+      sessionStorage.setItem('mroRole', current);
+      if(current==='tech'){
+        if(!curTech){ document.getElementById('hint').textContent='정비사를 선택하세요'; return; }
+        sessionStorage.setItem('mroTech', curTech);
+      } else { sessionStorage.removeItem('mroTech'); }
+    }catch(e){}
+    location.href = ROLES[current].to;
+  }
+  document.addEventListener('keydown', function(e){ if(e.key==='Enter') submit(); });
+  pick('tech'); // 기본: 정비사 (현장 앱)
+</script>
+</body></html>

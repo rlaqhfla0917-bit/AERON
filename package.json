@@ -1,0 +1,12 @@
+{
+  "name": "mro-copilot",
+  "version": "1.0.0",
+  "description": "항공정비 Physical AI — 정비 지식 오케스트레이터 (온톨로지 기반 서비스)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
