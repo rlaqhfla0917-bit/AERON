@@ -7,15 +7,15 @@
 <body><main><header><div class="brand">AERON <span class="tag">/ AI MAINTENANCE</span></div><a href="https://github.com/rlaqhfla0917-bit/AERON" target="_blank" rel="noopener">GitHub 소스 ↗</a></header>
 <section><h1>정비 정보를 연결해,<br><span class="accent">판단에 필요한 근거를 찾다.</span></h1>
 <p>Neo4j Knowledge Graph + RAG 기반 항공정비 AI 지원 시스템<br>FAA 분류체계 · 결함 데이터 · 정비 절차와 사례의 관계를 탐색하는 7인 팀 프로젝트</p>
-<div class="steps"><span>Neo4j / Cypher</span><span>RAG / LLM</span><span>Node.js</span><span>Physical AI PoC</span><span>Human Handoff</span></div></section>
+<div class="steps"><span>Neo4j / Cypher</span><span>RAG / LLM</span><span>Node.js</span><span>정비 지식 탐색</span><span>근거 기반 검색</span></div></section>
 <div class="notice"><strong>포트폴리오 공개 시연</strong> · 아래는 사전 정의된 가상 사례를 이용한 인터랙티브 UI 데모입니다. 실제 Neo4j 질의, LLM 응답이나 FAA 승인 정비지침이 아닙니다. 항공기 정비 판단에 사용하지 마세요.</div>
 <section class="grid"><div class="panel"><div class="tag">KNOWLEDGE EXPLORER · PREVIEW</div><h2>정비 지식 탐색 흐름</h2><p>질문을 선택하면 부품 → 결함 → 절차 → 근거 확인의 처리 흐름을 예시로 보여줍니다.</p><div class="controls">
 <button data-case="blade">블레이드 표면 손상</button><button data-case="skin">기체 외판 부식</button><button data-case="safety">작업 전 안전 점검</button>
 </div><pre id="output" aria-live="polite">왼쪽의 시나리오 버튼을 선택해 주세요.</pre></div>
 <div class="panel"><div class="tag">SYSTEM ARCHITECTURE</div><h2>실제 프로젝트 구조</h2><div class="steps"><span>자연어 질문</span><span>부품·의도 분석</span><span>Graph + RAG Retrieval</span><span>LLM Context 생성</span><span>근거 포함 응답</span></div>
-<h2 style="margin-top:30px">Physical AI 확장 PoC</h2><p>촬영 품질 기준을 충족하지 못하면 경로·촬영 위치를 재계획하고, 반복 실패 시 정비사에게 판단을 이관하도록 설계했습니다.</p>
-<div class="steps"><span>Perception</span><span>A* Planning</span><span>Capture</span><span>Quality Check</span><span>Retry / Human</span></div></div></section>
-<section class="panel footer"><h2>실제 구현 및 검증 자료</h2><p>원본 저장소에는 Node.js 서버, Neo4j 데이터 적재용 Cypher, RAG 검색 흐름, Python 기반 Physical AI 시뮬레이션 및 검증 스크립트가 있습니다. 이 웹 미리보기는 그 코드와 직접 연결하지 않은 별도의 정적 데모입니다.</p>
+<h2 style="margin-top:30px">정비 데이터의 관계를 구조화</h2><p>부품, 결함, 정비 절차, 근거 문서 및 과거 사례를 연결하여 질문에 필요한 정보를 관계 기반으로 탐색하도록 구성했습니다.</p>
+<div class="steps"><span>시스템 분류</span><span>부품 식별</span><span>결함 사례</span><span>관련 절차</span><span>근거 확인</span></div></div></section>
+<section class="panel footer"><h2>실제 구현 및 검증 자료</h2><p>원본 저장소에는 Node.js 백엔드, Neo4j 데이터 적재용 Cypher, 정비 데이터 관계 탐색 및 RAG·LLM 연계 코드가 있습니다. 이 웹 미리보기는 그 코드와 직접 연결하지 않은 별도의 정적 데모입니다.</p>
 <a href="https://github.com/rlaqhfla0917-bit/AERON/blob/main/README.md">시스템 구현 설명 및 실행 방법 확인 →</a></section>
 <p class="small">KT AIVLE School Big Project · Demonstration data only · No live maintenance recommendations</p></main>
 <script>
