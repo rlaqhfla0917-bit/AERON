@@ -17,6 +17,8 @@ jobs:
           node --check server.js
           node --check load_sdr_blade.js
           node --check run_cypher.js
+      - name: Verify Cypher loading dry-run (no database access)
+        run: node run_cypher.js d008_blade.cypher --dry
       - name: Check public web demo is present
         run: |
           test -f docs/index.html
