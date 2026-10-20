@@ -3,8 +3,8 @@
 //   (load_sdr_blade.js와 동일한 접속 규칙 / Node 내장 모듈만 사용)
 //
 //   실행:
-//     node seed/run_cypher.js seed/d008_blade.cypher <neo4j비밀번호>
-//     node seed/run_cypher.js seed/d008_blade.cypher --dry   # 실행 없이 문장만 확인
+//     node run_cypher.js d008_blade.cypher <neo4j비밀번호>
+//     node run_cypher.js d008_blade.cypher --dry   # 실행 없이 문장만 확인
 //
 //   접속 정보: .env 또는 환경변수 NEO4J_URI / NEO4J_USER / NEO4J_PW / NEO4J_DATABASE
 //
@@ -19,7 +19,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = __dirname;
 
 // ── .env 로더 (server.js와 동일 규칙) ────────────────────────
 try {
@@ -37,7 +37,7 @@ const DRY = ARGS.includes('--dry');
 const positional = ARGS.filter(a => !a.startsWith('--'));
 const FILE = positional[0];
 if (!FILE) {
-  console.error('사용법: node seed/run_cypher.js <파일.cypher> [비밀번호] [--dry]');
+  console.error('사용법: node run_cypher.js <파일.cypher> [비밀번호] [--dry]');
   process.exit(1);
 }
 
@@ -114,5 +114,5 @@ function splitStatements(text) {
     }
   }
   console.log('\n\n  완료 — 성공 ' + ok + ' / 실패 ' + fail);
-  if (fail === 0) console.log('  다음 단계:  node seed/load_sdr_blade.js <비밀번호>\n');
+  if (fail === 0) console.log('  다음 단계:  node load_sdr_blade.js <비밀번호>\n');
 })();
