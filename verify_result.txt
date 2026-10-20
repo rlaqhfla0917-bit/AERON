@@ -1,7 +1,0 @@
-frames scanned : 1036
-penetrations   : 0  (>5mm)
-worst depth    : 0.0 mm  None
-min |moby - obstacle| : 0.619 m
-moby vs obstacle : 0 hits, worst 0.0 mm
-moby vs 블레이드 : 0 프레임 겹침, 최대 0 mm
-moby y range     : -0.40 ~ 0.00 m (우회 실제 실행 여부)
