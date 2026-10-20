@@ -1,0 +1,23 @@
+name: AERON JavaScript integrity
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  syntax-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Validate the backend and graph-loading scripts
+        run: |
+          node --check server.js
+          node --check load_sdr_blade.js
+          node --check run_cypher.js
+      - name: Check public web demo is present
+        run: |
+          test -f docs/index.html
+          test -f docs/README.md
