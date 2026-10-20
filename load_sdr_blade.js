@@ -3,10 +3,10 @@
 //   레포에 기존 ETL 스크립트가 없어 새로 작성. Node 내장 모듈만 사용(무설치).
 //
 //   실행:
-//     node seed/load_sdr_blade.js <neo4j비밀번호>
-//     node seed/load_sdr_blade.js --dry     # 적재 없이 무엇이 들어갈지만 출력
+//     node load_sdr_blade.js <neo4j비밀번호>
+//     node load_sdr_blade.js --dry     # 적재 없이 무엇이 들어갈지만 출력
 //
-//   선행: seed/d008_blade.cypher 를 먼저 실행 (Part/Defect 노드가 있어야 통계 역산 가능)
+//   선행: d008_blade.cypher 를 먼저 실행 (Part/Defect 노드가 있어야 통계 역산 가능)
 //   접속 정보는 server.js와 동일 규칙 (.env 또는 환경변수 NEO4J_URI/USER/PW).
 //
 //   ※ 통계는 지어내지 않는다 — Part.caseCount 와 OCCURS_ON.weight 를
@@ -17,7 +17,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = __dirname;
 
 // ── .env 로더 (server.js 13~25행과 동일 규칙) ────────────────
 try {
