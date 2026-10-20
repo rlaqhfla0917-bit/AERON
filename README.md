@@ -11,6 +11,26 @@
 
 ---
 
+
+## Verification & Code Evidence
+
+**구현 근거**
+- [`server.js`](server.js): Neo4j HTTP Query API 질의, Graph 결과를 활용한 LLM 응답 및 규칙 기반 폴백
+- [`run_cypher.js`](run_cypher.js): Cypher 파일 읽기, SQL과 구별되는 Graph 적재 실행 도구 (`--dry`로 DB 없이 구문 분리 내역 확인)
+- [`load_sdr_blade.js`](load_sdr_blade.js): CSV 기반 외부 사례 데이터 적재 로직
+- [정적 UI 시연](https://rlaqhfla0917-bit.github.io/AERON/): **사전 작성한 가상 사례**. 실제 Neo4j·LLM 연결 화면이 아님
+
+**재현 가능한 검사**
+1. `node --check server.js`, `node --check run_cypher.js`, `node --check load_sdr_blade.js`로 JavaScript 구문 검사
+2. `node run_cypher.js d008_blade.cypher --dry`로 실행 대상 구문 확인 (**DB 변경 없음**)
+3. [GitHub Actions](https://github.com/rlaqhfla0917-bit/AERON/actions)에서 위 JavaScript **구문 검사** 결과 확인
+
+**검증 범위:** 자동 CI는 코드 구문과 미리보기 파일 존재를 확인할 뿐, 실제 Neo4j 질의 결과의 정합성·RAG 답변 정확도·검색시간 40% 단축을 입증하지 않습니다. 실서비스용 정비 판단 도구가 아니며 공식 교범과 전문가 검토가 필요합니다.
+
+**본인 기여 구분:** 7인 팀 PM으로 인터뷰·문제 정의·우선순위·서비스 흐름·Graph/RAG 연계 설계와 결과물 통합을 주도했습니다. 이 저장소는 팀 프로젝트 결과물의 공유 코드이며 개별 파일 전체를 혼자 개발했다고 주장하지 않습니다.
+
+---
+
 ## 1. Problem & Approach
 
 항공정비 현장에서는 정비 작업에 앞서 여러 문서와 자료에서 필요한 정보를 찾아야 합니다. 현직 정비사 인터뷰를 통해 작업 배정 후 정보 검색에 시간이 소요된다는 문제를 확인했습니다.
