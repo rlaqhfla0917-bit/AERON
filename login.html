@@ -45,7 +45,7 @@
     <div class="logo">M</div>
     <div><h1><span class="dot"></span>MRO Copilot</h1><p>항공정비 Physical AI 오케스트레이션 · Line Maintenance</p></div>
   </div>
-  <div class="sec">사내 업무망 전용 시스템입니다. 접근 기록이 감사 로그에 저장되며, 무단 접근 시 사내 보안규정에 따라 조치됩니다.</div>
+  <div class="sec">포트폴리오용 가상 로그인 화면입니다. 실제 사내 SSO, 사용자 인증, 접근 통제 및 감사 로그를 제공하지 않습니다.</div>
 
   <div class="rlabel">역할 선택 Role</div>
   <div class="roles">
@@ -63,14 +63,14 @@
   </div>
 
   <div class="fld"><label>사번 Employee ID</label><input id="uid" class="mono" value=""></div>
-  <div class="fld"><label>비밀번호 Password</label><input id="pw" type="password" value="mro-poc-2026"></div>
-  <button class="go" onclick="submit()">사내 SSO 로그인</button>
-  <div class="hint" id="hint">역할을 선택하고 로그인하세요</div>
+  <div class="fld"><label>비밀번호 Password</label><input id="pw" type="password" value="" disabled placeholder="데모에는 비밀번호를 사용하지 않습니다"></div>
+  <button class="go" onclick="submit()">데모 화면으로 이동</button>
+  <div class="hint" id="hint">역할을 선택해 체험용 화면으로 이동하세요</div>
 
-  <div class="foot"><span>대내한 · INTERNAL USE ONLY</span><span class="mono">v2.0 PoC</span></div>
+  <div class="foot"><span>대내한 · INTERNAL USE ONLY</span><span class="mono">DEMO · NO AUTH</span></div>
 </div>
 <script>
-  // 역할별 데모 계정·진입 대상
+  // 역할별 데모 화면·진입 대상 (실제 인증 아님)
   var ROLES = {
     manager: { uid:'K-208114', to:'/manager.html', hint:'관리자 관제 콘솔 — 운영·품질·인재·지식·효과 리포트' },
     tech:    { uid:'K-311001', to:'/index.html',   hint:'정비사 현장 앱 — 아래에서 정비사를 선택하세요' }
@@ -96,7 +96,7 @@
     document.querySelectorAll('[data-tech]').forEach(function(el){ el.classList.toggle('on', el.dataset.tech===id); });
     var t = TECHS.find(function(x){return x.id===id;});
     if(t) document.getElementById('uid').value = t.uid;
-    document.getElementById('hint').textContent = t.id+' 정비사로 로그인 — '+t.robot+' 페어';
+    document.getElementById('hint').textContent = t.id+' 정비사 데모 보기 — '+t.robot+' 페어';
   }
   function pick(r){
     current = r;
