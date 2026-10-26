@@ -778,7 +778,7 @@ function autoTick(){
     A.prog=Math.round(s/5*100); A.status='작업중'; A.lastActive=now;
   });
 }
-setInterval(autoTick, 3000);   // 3초마다 한 단계씩
+if (require.main === module) setInterval(autoTick, 3000);   // 실행 프로세스에서만 데모 자동재생
 function actText(w){ return w.part+' '+w.defect+' 검사 완료 → '+w.verdict+' ('+(w.robot?'로봇':'직접')+' 촬영)'; }
 function deriveActivity(works){
   return works.filter(w=>w.status==='완료')
