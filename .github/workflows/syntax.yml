@@ -15,8 +15,11 @@ jobs:
       - name: Validate the backend and graph-loading scripts
         run: |
           node --check server.js
+          node --check security.js
           node --check load_sdr_blade.js
           node --check run_cypher.js
+      - name: Run local API safety tests
+        run: npm test
       - name: Verify Cypher loading dry-run (no database access)
         run: node run_cypher.js d008_blade.cypher --dry
       - name: Check public web demo is present

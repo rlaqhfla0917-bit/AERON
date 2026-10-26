@@ -165,3 +165,13 @@ AERON에서는 관계가 중요한 정비 데이터를 단순 키워드 검색�
 ---
 
 **Project Context** · KT AIVLE School Big Project / Aircraft Maintenance Knowledge Graph / RAG
+
+
+## Local prototype security and reproducibility
+
+- `node server.js` binds **127.0.0.1 only**. Role selection is a **demo**, not authentication. Never publish or reverse-proxy this backend until real authentication and authorization are implemented.
+- Only known HTML UI files are served: local `.env`, source, and database-loading files are never served as static content.
+- Browser POST requests from other origins are rejected. This is local protection, **not** real user authentication.
+- Set `NEO4J_PW` as an environment variable (no default password). Avoid passing secrets as CLI arguments.
+- `sample_field_terms.csv` is a **synthetic public sample**. A local private `현장용어사전.csv` overrides it; never upload sensitive interview data.
+- `npm test` checks local file/origin safety. CI still does not validate real Neo4j, LLM response quality, or production access control.

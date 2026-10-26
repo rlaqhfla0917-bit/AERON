@@ -4,7 +4,8 @@
   "description": "Neo4j Knowledge Graph 및 RAG 기반 항공정비 지식 탐색 지원 서비스",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node --test tests/*.test.js"
   },
   "engines": {
     "node": ">=18"
