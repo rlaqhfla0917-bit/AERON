@@ -1389,6 +1389,7 @@ function readBody(req){
 }
 
 // ── 시작 시 연결 점검 ──────────────────────────────────────
+if (require.main === module) {
 server.listen(PORT, '127.0.0.1', async ()=>{
   console.log('\n  MRO Copilot 서비스 서버');
   console.log('  ─────────────────────────────');
@@ -1403,3 +1404,6 @@ server.listen(PORT, '127.0.0.1', async ()=>{
   console.log('  '+(LLM_ON?'✓ LLM 켜짐 — '+LLM_PROVIDER+' ('+(LLM_PROVIDER==='gemini'?GEMINI_CHAIN.join(' → '):LLM_MODEL)+')':'· LLM 꺼짐 — 규칙 기반 (API 키 없음)'));
   console.log('  ✓ 브라우저에서 열기:  http://127.0.0.1:'+PORT+'\n');
 });
+}
+
+module.exports = {classifyIntent, composeAnswer};
