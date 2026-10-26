@@ -778,7 +778,7 @@ function autoTick(){
     A.prog=Math.round(s/5*100); A.status='작업중'; A.lastActive=now;
   });
 }
-setInterval(autoTick, 3000);   // 3초마다 한 단계씩
+if (require.main === module) setInterval(autoTick, 3000);   // 실행 프로세스에서만 데모 자동재생
 function actText(w){ return w.part+' '+w.defect+' 검사 완료 → '+w.verdict+' ('+(w.robot?'로봇':'직접')+' 촬영)'; }
 function deriveActivity(works){
   return works.filter(w=>w.status==='완료')
@@ -1389,6 +1389,7 @@ function readBody(req){
 }
 
 // ── 시작 시 연결 점검 ──────────────────────────────────────
+if (require.main === module) {
 server.listen(PORT, '127.0.0.1', async ()=>{
   console.log('\n  MRO Copilot 서비스 서버');
   console.log('  ─────────────────────────────');
@@ -1403,3 +1404,6 @@ server.listen(PORT, '127.0.0.1', async ()=>{
   console.log('  '+(LLM_ON?'✓ LLM 켜짐 — '+LLM_PROVIDER+' ('+(LLM_PROVIDER==='gemini'?GEMINI_CHAIN.join(' → '):LLM_MODEL)+')':'· LLM 꺼짐 — 규칙 기반 (API 키 없음)'));
   console.log('  ✓ 브라우저에서 열기:  http://127.0.0.1:'+PORT+'\n');
 });
+}
+
+module.exports = {classifyIntent, composeAnswer};
