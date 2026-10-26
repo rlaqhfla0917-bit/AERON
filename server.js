@@ -9,6 +9,7 @@ const http  = require('http');
 const https = require('https');
 const fs    = require('fs');
 const path  = require('path');
+const {resolvePublicFile, isTrustedOrigin} = require('./security');
 
 // ── .env 로컬 로더 (있으면 읽음) — 무설치, 의존성 없음 ──────
 // 서비스/.env 에 KEY=VALUE 한 줄씩 넣어두면 자동으로 읽음.
@@ -31,7 +32,7 @@ const PORT   = process.env.PORT || 5173;
 const NEO4J_BASE = process.env.NEO4J_URI || 'http://localhost:7474';
 const NEO4J_USER = process.env.NEO4J_USER || 'neo4j';
 const NEO4J_DB   = process.env.NEO4J_DATABASE || 'neo4j';
-const PW     = process.argv[2] || process.env.NEO4J_PW || 'neo4j';
+const PW     = process.env.NEO4J_PW || process.argv[2] || '';
 const NEO4J  = NEO4J_BASE.replace(/\/$/,'') + '/db/' + NEO4J_DB + '/query/v2';
 const AUTH   = 'Basic ' + Buffer.from(NEO4J_USER + ':' + PW).toString('base64');
 const ROOT   = __dirname;
@@ -59,7 +60,9 @@ const LLM_MODEL      = LLM_PROVIDER==='anthropic' ? ANTHROPIC_MODEL : GEMINI_MOD
 // 대한항공 정비사 VOC + 검색. RAG 근거와 부품 해석 양쪽에 사용.
 let FIELD_TERMS = [];
 try{
-  const raw = fs.readFileSync(path.join(ROOT,'현장용어사전.csv'),'utf8').replace(/^﻿/,'');
+  const localTerms = path.join(ROOT, '현장용어사전.csv');
+  const sampleTerms = path.join(ROOT, 'sample_field_terms.csv');
+  const raw = fs.readFileSync(fs.existsSync(localTerms) ? localTerms : sampleTerms, 'utf8').replace(/^﻿/,'');
   FIELD_TERMS = raw.split(/\r?\n/).slice(1).filter(Boolean).map(line=>{
     const c = line.split(',');
     return {term:c[0], std:c[1], cat:c[2], mean:c[3], src:c[4]};
@@ -1065,6 +1068,10 @@ const MIME = {'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':
 
 const server = http.createServer(async (req,res)=>{
   const u = new URL(req.url, 'http://localhost');
+  // Local prototype: reject cross-origin browser writes.
+  if(req.method === 'POST' && !isTrustedOrigin(req.headers.origin, PORT)){
+    return json(res, {error:'untrusted browser origin'}, 403);
+  }
 
   // API: 부품 목록
   if(u.pathname === '/api/parts'){
@@ -1273,8 +1280,8 @@ const server = http.createServer(async (req,res)=>{
 
   // 정적 파일 — 최초 진입은 통합 로그인 랜딩(역할 선택). 정비사=/index.html, 관리자=/manager.html
   let f = u.pathname === '/' ? '/login.html' : u.pathname;
-  const fp = path.join(ROOT, decodeURIComponent(f));
-  if(!fp.startsWith(ROOT)) { res.writeHead(403); return res.end('forbidden'); }
+  const fp = resolvePublicFile(ROOT, f);
+  if(!fp) { res.writeHead(403); return res.end('forbidden'); }
   fs.readFile(fp, (err,data)=>{
     if(err){ res.writeHead(404); return res.end('not found: '+f); }
     res.writeHead(200, {'Content-Type': MIME[path.extname(fp)] || 'application/octet-stream'});
@@ -1382,7 +1389,7 @@ function readBody(req){
 }
 
 // ── 시작 시 연결 점검 ──────────────────────────────────────
-server.listen(PORT, async ()=>{
+server.listen(PORT, '127.0.0.1', async ()=>{
   console.log('\n  MRO Copilot 서비스 서버');
   console.log('  ─────────────────────────────');
   try{
@@ -1394,5 +1401,5 @@ server.listen(PORT, async ()=>{
   // LLM·현장용어 상태는 Neo4j 성패와 무관하게 항상 표시
   console.log('  ✓ 현장용어사전 '+FIELD_TERMS.length+'개 로드');
   console.log('  '+(LLM_ON?'✓ LLM 켜짐 — '+LLM_PROVIDER+' ('+(LLM_PROVIDER==='gemini'?GEMINI_CHAIN.join(' → '):LLM_MODEL)+')':'· LLM 꺼짐 — 규칙 기반 (API 키 없음)'));
-  console.log('  ✓ 브라우저에서 열기:  http://localhost:'+PORT+'\n');
+  console.log('  ✓ 브라우저에서 열기:  http://127.0.0.1:'+PORT+'\n');
 });
