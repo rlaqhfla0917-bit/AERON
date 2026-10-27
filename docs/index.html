@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AERON | Aircraft Maintenance AI Portfolio</title>
+<title>AERON | 항공정비 지식그래프</title>
 <style>
 :root{font-family:Inter,Pretendard,"Noto Sans KR",system-ui,sans-serif;color:#eaf2ff;background:#091321}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 10%,#193963,transparent 40%),#091321}main{max-width:1100px;margin:auto;padding:28px 20px 76px}header{display:flex;justify-content:space-between;align-items:center;gap:12px}a{color:#91c7ff;text-decoration:none}.brand{font-weight:800;letter-spacing:.1em;font-size:1.3rem}.tag{color:#a1c4ee;font-size:.82rem}h1{font-size:clamp(2.2rem,6vw,4.7rem);letter-spacing:-.05em;line-height:1.1;margin:82px 0 22px}h2{font-size:1.3rem}p{color:#b8c8db;line-height:1.8}.accent{color:#78c4ff}.pill{display:inline-block;background:#183253;border:1px solid #316092;padding:8px 15px;border-radius:99px;font-size:.84rem;color:#b9ddff}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;margin-top:44px}.panel{background:#101f32;border:1px solid #28415f;border-radius:20px;padding:27px;box-shadow:0 18px 44px #0002}.controls{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0}button{border:1px solid #456b91;background:#152f4f;color:#ebf7ff;padding:12px 15px;border-radius:12px;cursor:pointer;font:inherit}button:hover,button:focus-visible{background:#245480;outline:2px solid #77bbfc}pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;color:#d6f2ff;font-family:inherit;font-size:.95rem}.notice{background:#263e38;border:1px solid #517c68;padding:15px 19px;border-radius:14px;color:#d4f8df;line-height:1.6;margin-top:24px}.steps{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.steps span{background:#1b314b;border-radius:9px;padding:12px;font-size:.86rem;color:#bcd7f1}.footer{margin-top:40px}.small{font-size:.83rem;color:#98b4ca}@media(max-width:730px){.grid{grid-template-columns:1fr}h1{margin-top:55px}.panel{padding:20px}}
 </style></head>
@@ -8,20 +8,20 @@
 <section><h1>정비 정보를 연결해,<br><span class="accent">판단에 필요한 근거를 찾다.</span></h1>
 <p>Neo4j Knowledge Graph + RAG 기반 항공정비 AI 지원 시스템<br>FAA 분류체계 · 결함 데이터 · 정비 절차와 사례의 관계를 탐색하는 7인 팀 프로젝트</p>
 <div class="steps"><span>Neo4j / Cypher</span><span>RAG / LLM</span><span>Node.js</span><span>정비 지식 탐색</span><span>근거 기반 검색</span></div></section>
-<div class="notice"><strong>포트폴리오 공개 시연</strong> · 아래는 사전 정의된 가상 사례를 이용한 인터랙티브 UI 데모입니다. 실제 Neo4j 질의, LLM 응답이나 FAA 승인 정비지침이 아닙니다. 항공기 정비 판단에 사용하지 마세요.</div>
+<div class="notice"><strong>AERON 웹 데모</strong> · 아래는 사전 정의된 가상 사례를 이용한 인터랙티브 UI 데모입니다. 실제 Neo4j 질의, LLM 응답이나 FAA 승인 정비지침이 아닙니다. 항공기 정비 판단에 사용하지 마세요.</div>
 <section class="grid"><div class="panel"><div class="tag">KNOWLEDGE EXPLORER · PREVIEW</div><h2>정비 지식 탐색 흐름</h2><p>질문을 선택하면 부품 → 결함 → 절차 → 근거 확인의 처리 흐름을 예시로 보여줍니다.</p><div class="controls">
 <button data-case="blade">블레이드 표면 손상</button><button data-case="skin">기체 외판 부식</button><button data-case="safety">작업 전 안전 점검</button>
 </div><pre id="output" aria-live="polite">왼쪽의 시나리오 버튼을 선택해 주세요.</pre></div>
-<div class="panel"><div class="tag">SYSTEM ARCHITECTURE</div><h2>실제 프로젝트 구조</h2><div class="steps"><span>자연어 질문</span><span>부품·의도 분석</span><span>Graph + RAG Retrieval</span><span>LLM Context 생성</span><span>근거 포함 응답</span></div>
+<div class="panel"><div class="tag">SYSTEM ARCHITECTURE</div><h2>시스템 구성</h2><div class="steps"><span>자연어 질문</span><span>부품·의도 분석</span><span>Graph + RAG Retrieval</span><span>LLM Context 생성</span><span>근거 포함 응답</span></div>
 <h2 style="margin-top:30px">정비 데이터의 관계를 구조화</h2><p>부품, 결함, 정비 절차, 근거 문서 및 과거 사례를 연결하여 질문에 필요한 정보를 관계 기반으로 탐색하도록 구성했습니다.</p>
 <div class="steps"><span>시스템 분류</span><span>부품 식별</span><span>결함 사례</span><span>관련 절차</span><span>근거 확인</span></div></div></section>
-<section class="panel footer"><h2>실제 구현 및 검증 자료</h2><p>원본 저장소에는 Node.js 백엔드, Neo4j 데이터 적재용 Cypher, 정비 데이터 관계 탐색 및 RAG·LLM 연계 코드가 있습니다. 이 웹 미리보기는 그 코드와 직접 연결하지 않은 별도의 정적 데모입니다.</p>
+<section class="panel footer"><h2>프로젝트 코드</h2><p>GitHub 저장소에서 Node.js 백엔드, Neo4j 데이터 적재용 Cypher, 관계 탐색 및 RAG·LLM 연계 코드를 확인할 수 있습니다. 이 페이지는 해당 백엔드와 연결되지 않은 정적 데모입니다.</p>
 <a href="https://github.com/rlaqhfla0917-bit/AERON/blob/main/README.md">시스템 구현 설명 및 실행 방법 확인 →</a></section>
-<p class="small">KT AIVLE School Big Project · Demonstration data only · No live maintenance recommendations</p></main>
+<p class="small">KT AIVLE School Big Project · 가상 데이터 기반 데모</p></main>
 <script>
 const data={
 blade:"[예시 질의] 블레이드에 표면 손상이 보일 때 어떤 정보를 찾아야 하나요?\n\n[용어 해석] BLADE / 손상 유형 후보 확인\n[관계 탐색] Engine → Blade → Defect → Procedure → Evidence\n[검토 항목] 손상 위치·크기 기록, 관련 매뉴얼 식별, 검토자 확인\n\n※ 실제 손상 판정이나 정비 절차가 아닌 탐색 화면 예시입니다.",
-skin:"[예시 질의] 항공기 외판 부식 사례를 찾고 싶어요.\n\n[용어 해석] SKIN / 부식 관련 사례\n[관계 탐색] Structure → Skin → Corrosion → Case → Evidence\n[검토 항목] 위치·환경·기록 비교, 관련 근거 확인\n\n※ 원본 Graph 데이터의 실시간 조회가 아닌 데모 설명입니다.",
+skin:"[예시 질의] 항공기 외판 부식 사례를 찾고 싶어요.\n\n[용어 해석] SKIN / 부식 관련 사례\n[관계 탐색] Structure → Skin → Corrosion → Case → Evidence\n[검토 항목] 위치·환경·기록 비교, 관련 근거 확인\n\n※ 실시간 Graph 조회 결과가 아닌 예시입니다.",
 safety:"[예시 질의] 작업 전에 무엇을 검증해야 하나요?\n\n[탐색 계획] 작업 대상 식별 → 기준 문서 확인 → 사용 도구/위험 요인 조회 → 담당자 확인\n[안전 설계] 근거가 부족하면 임의 판단을 내리지 않고 사람에게 이관\n\n※ 실제 승인된 안전 점검 목록이 아닙니다."
 };
 document.querySelectorAll("[data-case]").forEach(b=>b.addEventListener("click",()=>{document.getElementById("output").textContent=data[b.dataset.case];}));
