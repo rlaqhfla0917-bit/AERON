@@ -12,6 +12,9 @@ test('fallback without inventing procedures', () => {
   const result = composeAnswer('procedure','BLADE',null,[]);
   assert.match(result.text, /조회되지 않았어요/);
   assert.deepEqual(result.data, {});
+  const missingSteps = composeAnswer('procedure','BLADE',null,[{procedure:'검사',steps:[]}]);
+  assert.match(missingSteps.text, /조회되지 않았어요/);
+  assert.deepEqual(missingSteps.data, {});
 });
 test('summarize defects from retrieved context', () => {
   const result = composeAnswer('stat','BLADE',{total:3,defects:[{name:'CRACKED',weight:2}]},[]);
