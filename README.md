@@ -25,6 +25,8 @@
 2. `node run_cypher.js d008_blade.cypher --dry`로 실행 대상 구문 확인 (**DB 변경 없음**)
 3. [GitHub Actions](https://github.com/rlaqhfla0917-bit/AERON/actions)에서 위 JavaScript **구문 검사** 결과 확인
 
+`npm test`에는 가상 Neo4j HTTP 응답을 이용한 Graph 조회·근거 조립 계약 테스트도 포함됩니다. 실제 Neo4j 서버를 사용하는 통합 검증과 정비 정보의 정확성 평가는 별도로 필요합니다.
+
 **테스트 범위:** CI는 코드 구문과 미리보기 파일을 확인합니다. Neo4j 통합 동작과 RAG 답변 품질은 별도 검증이 필요합니다. 정비 판단에는 공식 교범과 전문가 확인이 우선입니다.
 
 **팀 프로젝트 내 역할:** 7인 팀 PM으로 인터뷰, 문제 정의, 우선순위, 서비스 흐름, Graph/RAG 연계 설계와 결과물 통합을 맡았습니다. 구현은 팀 공동 작업입니다.

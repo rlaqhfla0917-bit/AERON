@@ -172,7 +172,8 @@ function composeAnswer(intent, part, data, procs){
   }
   if(intent==='procedure'){
     const p=pr[0];
-    if(!p) return {text:`${partKo} 검사 절차가 조회되지 않았어요.`, chips:['주의사항'], data:{}};
+    if(!p || !Array.isArray(p.steps) || !p.steps.length)
+      return {text:`${partKo} 검사 절차가 조회되지 않았어요.`, chips:['주의사항'], data:{}};
     const st=(p.steps||[]).map((s,i)=>`${i+1}. ${s}`).join('\n');
     return {text:`${p.procedure} 절차예요.\n\n${st}`,
       chips:['필요 공구','주의사항','과거 사례'], data:{procedure:p.procedure, steps:p.steps, page:p.page, source:p.source}};
@@ -1406,4 +1407,4 @@ server.listen(PORT, '127.0.0.1', async ()=>{
 });
 }
 
-module.exports = {classifyIntent, composeAnswer};
+module.exports = {classifyIntent, composeAnswer, cypher, buildContext};
